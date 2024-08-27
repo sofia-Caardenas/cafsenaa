@@ -34,7 +34,7 @@
             <table id="usuarios-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Teléfono</th>
@@ -54,12 +54,12 @@
             <table id="productos-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Precio</th>
-                        <th>Stock</th>
-                        <th>Fecha Agregado</th>
+                        <th>categoria</th>
+                        <th>Stock</th>                        
+                        <th>fecha de Agregando</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -74,8 +74,7 @@
             <table id="pedidos-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>ID Usuario</th>
+                        <th>ID pedido</th>
                         <th>Fecha del Pedido</th>
                         <th>Estado</th>
                         <th>Total</th>
@@ -93,7 +92,7 @@
             <table id="historial-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        
                         <th>ID Usuario</th>
                         <th>ID Pedido</th>
                         <th>Fecha del Pedido</th>
@@ -114,7 +113,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>ID Usuario</th>
                         <th>Mensaje</th>
                         <th>Fecha</th>
                         <th>Leída</th>
@@ -137,8 +135,8 @@
         ];
 
         let productos = [
-            { id: 1, title: 'Café Americano', description: 'Café negro sin azúcar', price: 5000, category: 'Bebidas', image: 'https://via.placeholder.com/150', dateAdded: '2024-03-01' },
-            { id: 2, title: 'Café Latte', description: 'Café con leche', price: 6000, category: 'Bebidas', image: 'https://via.placeholder.com/150', dateAdded: '2024-03-05' }
+            { id: 1, title: 'Café Americano', description: 'Café negro sin azúcar', price: 5000, category: 'Bebidas', image: '20', dateAdded: '2024-03-01' },
+            { id: 2, title: 'Café Latte', description: 'Café con leche', price: 6000, category: 'Bebidas', image: '20', dateAdded: '2024-03-05' }
         ];
 
         let pedidos = [
@@ -156,9 +154,9 @@
             { id: 2, userId: 2, message: 'Tu pedido está en preparación.', date: '2024-04-02', read: true }
         ];
 
-        function fillTable(tableId, data) {
+        function fillTable(tableId, data, editFunction, deleteFunction) {
             const tbody = document.querySelector(`#${tableId} tbody`);
-            tbody.innerHTML = '';
+            tbody.innerHTML = ''; // Limpia el contenido de la tabla
             data.forEach(item => {
                 let row = '<tr>';
                 for (const key in item) {
@@ -166,14 +164,14 @@
                 }
                 row += `
                     <td>
-                        <button onclick="edit${tableId.charAt(0).toUpperCase() + tableId.slice(1)}(${item.id})">Editar</button>
-                        <button onclick="delete${tableId.charAt(0).toUpperCase() + tableId.slice(1)}(${item.id})">Eliminar</button>
+                        <button onclick="${editFunction}(${item.id})">Editar</button>
+                        <button onclick="${deleteFunction}(${item.id})">Eliminar</button>
                     </td>
                 `;
                 row += '</tr>';
                 tbody.innerHTML += row;
-            });
-        }
+          });
+}
 
         function showSection(sectionId) {
             document.querySelectorAll('.menu-section').forEach(section => {
@@ -183,11 +181,11 @@
         }
 
         function loadTableData() {
-            fillTable('usuarios-table', usuarios);
-            fillTable('productos-table', productos);
-            fillTable('pedidos-table', pedidos);
-            fillTable('historial-table', historial);
-            fillTable('notificaciones-table', notificaciones);
+            fillTable('usuarios-table', usuarios, 'editUser', 'deleteUser');
+            fillTable('productos-table', productos, 'editProduct', 'deleteProduct');
+            fillTable('pedidos-table', pedidos, 'editOrder', 'deleteOrder');
+            fillTable('historial-table', historial, 'editHistory', 'deleteHistory');
+            fillTable('notificaciones-table', notificaciones, 'editNotification', 'deleteNotification');
         }
 
         function addUser() {
@@ -204,13 +202,18 @@
         }
 
         function editUser(id) {
-            const user = usuarios.find(u => u.id === id);
-            user.nombre = prompt('Nuevo Nombre del Usuario:', user.nombre);
-            user.email = prompt('Nuevo Email del Usuario:', user.email);
-            user.telefono = prompt('Nuevo Teléfono del Usuario:', user.telefono);
-            user.direccion = prompt('Nueva Dirección del Usuario:', user.direccion);
-            fillTable('usuarios-table', usuarios);
-        }
+    const user = usuarios.find(u => u.id === id);
+    if (user) {
+        user.nombre = prompt('Nuevo Nombre del Usuario:', user.nombre) || user.nombre;
+        user.email = prompt('Nuevo Email del Usuario:', user.email) || user.email;
+        user.telefono = prompt('Nuevo Teléfono del Usuario:', user.telefono) || user.telefono;
+        user.direccion = prompt('Nueva Dirección del Usuario:', user.direccion) || user.direccion;
+        fillTable('usuarios-table', usuarios, 'editUser', 'deleteUser');
+    } else {
+        alert("Usuario no encontrado.");
+    }
+}
+
 
         function deleteUser(id) {
             const index = usuarios.findIndex(u => u.id === id);
@@ -241,8 +244,13 @@
             product.price = parseFloat(prompt('Nuevo Precio del Producto:', product.price));
             product.category = prompt('Nueva Categoría del Producto:', product.category);
             product.image = prompt('Nueva URL de la Imagen del Producto:', product.image);
+            product.stock = parseInt(prompt('Nuevo Stock del Producto:', product.stock));  // Agregando la edición del stock
             fillTable('productos-table', productos);
+            
+            // Guardar cambios en el localStorage o enviar a la API
+            localStorage.setItem('productos', JSON.stringify(productos));
         }
+
 
         function deleteProduct(id) {
             const index = productos.findIndex(p => p.id === id);

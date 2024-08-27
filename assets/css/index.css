@@ -187,7 +187,7 @@ body {
     display: flex;
     justify-content: space-around; /* Distribuir el espacio de manera uniforme */
     align-items: center;
-    gap: 290px;
+    gap: 150px;
     flex-wrap: wrap; /* Permitir que las imágenes se envuelvan en pantallas pequeñas */
 }
 

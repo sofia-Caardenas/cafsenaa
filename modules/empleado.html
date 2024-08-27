@@ -16,14 +16,13 @@
         <nav>
             <ul>
                 <li><a href="#" onclick="showProfile(); return false;">Perfil de empleado</a></li>
-                <li><a href="#" onclick="showStockUpdate(); return false;">Actualizar Stock</a></li>
+                <li><a href="#" onclick="showStockUpdate(); return false;">Ver Stock</a></li>
                 <li><a href="#" onclick="showOrders(); return false;">Ver pedidos</a></li>
             </ul>
         </nav>
     </header>
     <div class="container">
         <div id="content">
-            <!-- Contenido dinámico se cargará aquí -->
         </div>
     </div>
     <footer>
@@ -69,28 +68,118 @@
 
         function showStockUpdate() {
             const stockContent = `
-                <h2>Actualizar Stock</h2>
+                <h2>Ver Stock</h2>
                 <ul class="stock-list">
                     <li>
+                        <img src="/img/carneasada.png" alt="empanada de carne">
+                        <div>
+                            <h3>Carne asada</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        <li>
+                        <img src="/img/costillas de cerdo.png" alt="empanada de carne">
+                        <div>
+                            <h3>Costillas de cerdo con salsa BBQ</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        <li>
+                        <img src="/img/bandeja paisa.png" alt="empanada de carne">
+                        <div>
+                            <h3>Bandeja Paisa</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        <li>
+                        <img src="/img/chuleta valluna.png" alt="empanada de carne">
+                        <div>
+                            <h3>Chuleta valluna</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        <li>
+                        <img src="/img/frijolada.png" alt="empanada de carne">
+                        <div>
+                            <h3>Frijolada</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        <li>
+                        <img src="/img/pescado.png" alt="empanada de carne">
+                        <div>
+                            <h3>Mojarra frita</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        </li>
+                                        <li>
                         <img src="/img/empanada.png" alt="empanada de carne">
                         <div>
-                            <h3>Empanada de Carne</h3>
+                            <h3>Empanada de carne</h3>
                             <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
-                            <span>Existencias: <input type="number" value="20" min="0" class="stock-input"></span>
-                            <button onclick="updateStock(this, 'increase')">Añadir</button>
-                            <button onclick="updateStock(this, 'decrease')">Quitar</button>
-                        </div>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
                     </li>
-                    <!-- Agrega aquí el resto de los elementos del stock como en el ejemplo anterior -->
+                                        </li>
+                                        <li>
+                        <img src="/img/buñuelo.png" alt="empanada de carne">
+                        <div>
+                            <h3>Buñuelos rellenos de arequipe</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        </li>
+                                        <li>
+                        <img src="/img/arepadehuevo.png" alt="empanada de carne">
+                        <div>
+                            <h3>Arepa de huevo</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        </li>
+                                        <li>
+                        <img src="/img/hamburguesa.png" alt="empanada de carne">
+                        <div>
+                            <h3>Hamburguesa tres carnes</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        </li>
+                                        <li>
+                        <img src="/img/cafe.png" alt="empanada de carne">
+                        <div>
+                            <h3>cafe con deditos de queso</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
+                                        </li>
+                                        <li>
+                        <img src="/img/pan de bono.png" alt="empanada de carne">
+                        <div>
+                            <h3>Pan de bono con trozitos de chocolate</h3>
+                            <p>Exquisita empanada rellena de jugosa carne sazonada, con una masa crujiente que te hará querer más.</p>
+                            <span>Existencias: <input type="number" value="20" class="stock-input"></span>
+                        </div>    
+                    </li>
                 </ul>
             `;
             document.getElementById('content').innerHTML = stockContent;
         }
 
         function showOrders() {
-    // Obtiene los pedidos desde localStorage
     let orders = JSON.parse(localStorage.getItem('orders')) || [];
-
+            
     let orderContent = `
         <h2>Pedidos de Clientes</h2>
         <ul class="order-list">
@@ -100,7 +189,7 @@
         orderContent += `
             <li>
                  <h3>Pedido #${order.id}</h3>
-                 <p><strong>Estado:</strong>
+                 <p><strong> Estado:</strong>
                      <select onchange="updateOrderStatus(${order.id}, this.value)">
                          <option value="En preparación" ${order.status === 'En preparación' ? 'selected' : ''}>En preparación</option>
                          <option value="En camino" ${order.status === 'En camino' ? 'selected' : ''}>En camino</option>
@@ -120,6 +209,25 @@
     orderContent += `</ul>`;
 
     document.getElementById('content').innerHTML = orderContent;
+}
+
+if (!localStorage.getItem('orderCounter')) {
+    localStorage.setItem('orderCounter', '1');
+}
+
+function getNextOrderId() {
+    let currentOrderId = parseInt(localStorage.getItem('orderCounter'), 10);
+    localStorage.setItem('orderCounter', (currentOrderId + 1).toString());
+    return currentOrderId;
+}
+function createNewOrder(orderData) {
+    // Asigna un número de orden autoincremental
+    orderData.id = getNextOrderId();
+
+    // Guarda el pedido en localStorage
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.push(orderData);
+    localStorage.setItem('orders', JSON.stringify(orders));
 }
 
 function updateOrderStatus(orderId, newStatus) {

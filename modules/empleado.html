@@ -35,9 +35,9 @@
             const profileContent = `
                 <div class="profile">
                     <h2>Perfil de Usuario</h2>
-                    <p><strong>Nombre:</strong> Juan Pérez</p>
-                    <p><strong>Email:</strong> juan.perez@example.com</p>
-                    <p><strong>Teléfono:</strong> 123-456-7890</p>
+                    <p><strong>Nombre:</strong> kate_h</p>
+                    <p><strong>Email:</strong> kate_h@gmail.com</p>
+                    <p><strong>Teléfono:</strong> 318 3888099</p>
                     <button onclick="editProfile()">Editar Perfil</button>
                 </div>
             `;
@@ -50,11 +50,11 @@
                     <h2>Editar Perfil</h2>
                     <form id="editProfileForm">
                         <label for="name">Nombre:</label>
-                        <input type="text" id="name" name="name" value="Juan Pérez" required>
+                        <input type="text" id="name" name="name" value="kate_h" required>
                         <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" value="juan.perez@example.com" required>
+                        <input type="email" id="email" name="email" value="kate_h@gmail.com" required>
                         <label for="phone">Teléfono:</label>
-                        <input type="tel" id="phone" name="phone" value="123-456-7890" required>
+                        <input type="tel" id="phone" name="phone" value="318 3888099" required>
                         <button type="submit">Guardar Cambios</button>
                     </form>
                 </div>
@@ -88,57 +88,57 @@
         }
 
         function showOrders() {
-            const orders = [
-                {
-                    productName: "Empanada de Carne",
-                    customerName: "Mailin Velasquez",
-                    quantity: 2,
-                    status: "Pendiente",
-                    imgSrc: "/img/empanada.png",
-                    price: 1000
-                },
-            ];
+    // Obtiene los pedidos desde localStorage
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
 
-            let orderContent = `
-                <h2>Pedidos de Clientes</h2>
-                <ul class="order-list">
-            `;
+    let orderContent = `
+        <h2>Pedidos de Clientes</h2>
+        <ul class="order-list">
+    `;
 
-            orders.forEach(order => {
-                const totalPrice = order.quantity * order.price;
-                orderContent += `
-                    <li>
-                        <img src="${order.imgSrc}" alt="${order.productName}">
-                        <div>
-                            <h3>${order.productName}</h3>
-                            <p><strong>Cliente:</strong> ${order.customerName}</p>
-                            <p><strong>Cantidad:</strong> ${order.quantity}</p>
-                            <p><strong>Precio Unitario:</strong> ${order.price} COP</p>
-                            <p><strong>Precio Total:</strong> ${totalPrice} COP</p>
-                            <p><strong>Estado:</strong> 
-                                <select onchange="updateOrderStatus(this)">
-                                    <option value="Pendiente" ${order.status === 'Pendiente' ? 'selected' : ''}>Pendiente</option>
-                                    <option value="Preparando" ${order.status === 'Preparando' ? 'selected' : ''}>Preparando</option>
-                                    <option value="Listo para recoger" ${order.status === 'Listo para recoger' ? 'selected' : ''}>Listo para recoger</option>
-                                    <option value="Entregado" ${order.status === 'Entregado' ? 'selected' : ''}>Entregado</option>
-                                </select>
-                            </p>
-                        </div>
-                    </li>
-                `;
-            });
+    orders.forEach((order, index) => {
+        orderContent += `
+            <li>
+                 <h3>Pedido #${order.id}</h3>
+                 <p><strong>Estado:</strong>
+                     <select onchange="updateOrderStatus(${order.id}, this.value)">
+                         <option value="En preparación" ${order.status === 'En preparación' ? 'selected' : ''}>En preparación</option>
+                         <option value="En camino" ${order.status === 'En camino' ? 'selected' : ''}>En camino</option>
+                         <option value="Entregado" ${order.status === 'Entregado' ? 'selected' : ''}>Entregado</option>
+                     </select>
+                 </p>
+                 <ul>
+                     ${order.items.map(item => `
+                         <li>${item.product} - $${item.price}</li>
+                      `).join('')}
+                 </ul>
+            </li>
 
-            orderContent += `
-                </ul>
-            `;
+        `;
+    });
 
-            document.getElementById('content').innerHTML = orderContent;
+    orderContent += `</ul>`;
+
+    document.getElementById('content').innerHTML = orderContent;
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+
+    orders = orders.map(order => {
+        if (order.id === orderId) {
+            order.status = newStatus;
         }
+        return order;
+    });
 
-        function updateOrderStatus(select) {
-            const status = select.value;
-            alert('El estado del pedido ha sido actualizado a: ' + status);
-        }
+    localStorage.setItem('orders', JSON.stringify(orders));
+    alert('El estado del pedido ha sido actualizado a: ' + newStatus);
+    showOrders();  // Refresca la vista de pedidos
+}
+
+
+
 
         function logout() {
             alert('Sesión cerrada');

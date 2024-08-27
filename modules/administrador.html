@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Onix</title>
     <link rel="stylesheet" href="../assets/css/administrador.css">
+    <style>
+        .menu-section {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="logo">Onix</div>
         <nav class="main-nav">
             <ul>
-                <li><a href="#usuarios">Usuarios</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#pedidos">Pedidos</a></li>
-                <li><a href="#historial">Historial</a></li>
-                <li><a href="#notificaciones">Notificaciones</a></li>
+                <li><a href="#usuarios" onclick="showSection('usuarios')">Usuarios</a></li>
+                <li><a href="#productos" onclick="showSection('productos')">Productos</a></li>
+                <li><a href="#pedidos" onclick="showSection('pedidos')">Pedidos</a></li>
+                <li><a href="#historial" onclick="showSection('historial')">Historial</a></li>
+                <li><a href="#notificaciones" onclick="showSection('notificaciones')">Notificaciones</a></li>
             </ul>
         </nav>
         <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
@@ -25,6 +30,7 @@
 
         <section id="usuarios" class="menu-section">
             <h2 class="section-title">Usuarios</h2>
+            <button onclick="addUser()">Agregar Usuario</button>
             <table id="usuarios-table">
                 <thead>
                     <tr>
@@ -34,6 +40,7 @@
                         <th>Teléfono</th>
                         <th>Dirección</th>
                         <th>Fecha de Registro</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +50,7 @@
 
         <section id="productos" class="menu-section">
             <h2 class="section-title">Productos</h2>
+            <button onclick="addProduct()">Agregar Producto</button>
             <table id="productos-table">
                 <thead>
                     <tr>
@@ -52,6 +60,7 @@
                         <th>Precio</th>
                         <th>Stock</th>
                         <th>Fecha Agregado</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -61,6 +70,7 @@
 
         <section id="pedidos" class="menu-section">
             <h2 class="section-title">Pedidos</h2>
+            <button onclick="addOrder()">Agregar Pedido</button>
             <table id="pedidos-table">
                 <thead>
                     <tr>
@@ -69,6 +79,7 @@
                         <th>Fecha del Pedido</th>
                         <th>Estado</th>
                         <th>Total</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +89,7 @@
 
         <section id="historial" class="menu-section">
             <h2 class="section-title">Historial de Pedidos</h2>
+            <button onclick="addHistory()">Agregar Historial</button>
             <table id="historial-table">
                 <thead>
                     <tr>
@@ -87,6 +99,7 @@
                         <th>Fecha del Pedido</th>
                         <th>Estado</th>
                         <th>Total</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,6 +109,7 @@
 
         <section id="notificaciones" class="menu-section">
             <h2 class="section-title">Notificaciones</h2>
+            <button onclick="addNotification()">Agregar Notificación</button>
             <table id="notificaciones-table">
                 <thead>
                     <tr>
@@ -104,6 +118,7 @@
                         <th>Mensaje</th>
                         <th>Fecha</th>
                         <th>Leída</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -115,33 +130,30 @@
         <p>&copy; 2024 Onix. Todos los derechos reservados.</p>
     </footer>
     <script>
-        function logout() {
-            window.location.href = '../index.html';
-        }
-
-        const usuarios = [
-            { idUsuario: 1, nombre: 'Juan Perez', email: 'juan.perez@example.com', telefono: '3001234567', direccion: 'Calle 123 #45-67', fechaRegistro: '2024-01-15 08:00:00' },
-            { idUsuario: 2, nombre: 'Maria Gomez', email: 'maria.gomez@example.com', telefono: '3102345678', direccion: 'Carrera 12 #34-56', fechaRegistro: '2024-02-20 09:00:00' }
+        // Simulación de datos
+        let usuarios = [
+            { id: 1, nombre: 'Juan Perez', email: 'juan.perez@example.com', telefono: '3001234567', direccion: 'Calle 123 #45-67', fechaRegistro: '2024-01-15' },
+            { id: 2, nombre: 'Maria Gomez', email: 'maria.gomez@example.com', telefono: '3102345678', direccion: 'Carrera 12 #34-56', fechaRegistro: '2024-02-20' }
         ];
 
-        const productos = [
-            { idProducto: 1, nombre: 'Café Americano', descripcion: 'Café negro sin azúcar', precio: 5000, stock: 100, fechaAgregado: '2024-03-01 10:00:00' },
-            { idProducto: 2, nombre: 'Café Latte', descripcion: 'Café con leche', precio: 6000, stock: 100, fechaAgregado: '2024-03-05 11:00:00' }
+        let productos = [
+            { id: 1, title: 'Café Americano', description: 'Café negro sin azúcar', price: 5000, category: 'Bebidas', image: 'https://via.placeholder.com/150', dateAdded: '2024-03-01' },
+            { id: 2, title: 'Café Latte', description: 'Café con leche', price: 6000, category: 'Bebidas', image: 'https://via.placeholder.com/150', dateAdded: '2024-03-05' }
         ];
 
-        const pedidos = [
-            { idPedido: 1, idUsuario: 1, fechaPedido: '2024-04-01 12:00:00', estado: 'Recibido', total: 10000 },
-            { idPedido: 2, idUsuario: 2, fechaPedido: '2024-04-02 13:00:00', estado: 'En Preparacion', total: 12000 }
+        let pedidos = [
+            { id: 1, userId: 1, orderDate: '2024-04-01', status: 'Recibido', total: 10000 },
+            { id: 2, userId: 2, orderDate: '2024-04-02', status: 'En Preparacion', total: 12000 }
         ];
 
-        const historial = [
-            { idHistorial: 1, idUsuario: 1, idPedido: 1, fechaPedido: '2024-04-01 12:00:00', estado: 'Recibido', total: 10000 },
-            { idHistorial: 2, idUsuario: 2, idPedido: 2, fechaPedido: '2024-04-02 13:00:00', estado: 'En Preparacion', total: 12000 }
+        let historial = [
+            { id: 1, userId: 1, orderId: 1, orderDate: '2024-04-01', status: 'Recibido', total: 10000 },
+            { id: 2, userId: 2, orderId: 2, orderDate: '2024-04-02', status: 'En Preparacion', total: 12000 }
         ];
 
-        const notificaciones = [
-            { idNotificacion: 1, idUsuario: 1, mensaje: 'Tu pedido ha sido recibido.', fechaNotificacion: '2024-04-01 12:00:00', leida: false },
-            { idNotificacion: 2, idUsuario: 2, mensaje: 'Tu pedido está en preparación.', fechaNotificacion: '2024-04-02 13:00:00', leida: true }
+        let notificaciones = [
+            { id: 1, userId: 1, message: 'Tu pedido ha sido recibido.', date: '2024-04-01', read: false },
+            { id: 2, userId: 2, message: 'Tu pedido está en preparación.', date: '2024-04-02', read: true }
         ];
 
         function fillTable(tableId, data) {
@@ -150,20 +162,191 @@
             data.forEach(item => {
                 let row = '<tr>';
                 for (const key in item) {
-                    row += `<td>${item[key]}</td>`;
+                    if (key !== 'id') row += `<td>${item[key]}</td>`;
                 }
+                row += `
+                    <td>
+                        <button onclick="edit${tableId.charAt(0).toUpperCase() + tableId.slice(1)}(${item.id})">Editar</button>
+                        <button onclick="delete${tableId.charAt(0).toUpperCase() + tableId.slice(1)}(${item.id})">Eliminar</button>
+                    </td>
+                `;
                 row += '</tr>';
                 tbody.innerHTML += row;
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function showSection(sectionId) {
+            document.querySelectorAll('.menu-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.querySelector(`#${sectionId}`).style.display = 'block';
+        }
+
+        function loadTableData() {
             fillTable('usuarios-table', usuarios);
             fillTable('productos-table', productos);
             fillTable('pedidos-table', pedidos);
             fillTable('historial-table', historial);
             fillTable('notificaciones-table', notificaciones);
-        });
+        }
+
+        function addUser() {
+            const newUser = {
+                id: usuarios.length + 1,
+                nombre: prompt('Nombre del Usuario:'),
+                email: prompt('Email del Usuario:'),
+                telefono: prompt('Teléfono del Usuario:'),
+                direccion: prompt('Dirección del Usuario:'),
+                fechaRegistro: new Date().toISOString().split('T')[0]
+            };
+            usuarios.push(newUser);
+            fillTable('usuarios-table', usuarios);
+        }
+
+        function editUser(id) {
+            const user = usuarios.find(u => u.id === id);
+            user.nombre = prompt('Nuevo Nombre del Usuario:', user.nombre);
+            user.email = prompt('Nuevo Email del Usuario:', user.email);
+            user.telefono = prompt('Nuevo Teléfono del Usuario:', user.telefono);
+            user.direccion = prompt('Nueva Dirección del Usuario:', user.direccion);
+            fillTable('usuarios-table', usuarios);
+        }
+
+        function deleteUser(id) {
+            const index = usuarios.findIndex(u => u.id === id);
+            if (index !== -1) {
+                usuarios.splice(index, 1);
+                fillTable('usuarios-table', usuarios);
+            }
+        }
+
+        function addProduct() {
+            const newProduct = {
+                id: productos.length + 1,
+                title: prompt('Nombre del Producto:'),
+                description: prompt('Descripción del Producto:'),
+                price: parseFloat(prompt('Precio del Producto:')),
+                category: prompt('Categoría del Producto:'),
+                image: prompt('URL de la Imagen del Producto:'),
+                dateAdded: new Date().toISOString().split('T')[0]
+            };
+            productos.push(newProduct);
+            fillTable('productos-table', productos);
+        }
+
+        function editProduct(id) {
+            const product = productos.find(p => p.id === id);
+            product.title = prompt('Nuevo Nombre del Producto:', product.title);
+            product.description = prompt('Nueva Descripción del Producto:', product.description);
+            product.price = parseFloat(prompt('Nuevo Precio del Producto:', product.price));
+            product.category = prompt('Nueva Categoría del Producto:', product.category);
+            product.image = prompt('Nueva URL de la Imagen del Producto:', product.image);
+            fillTable('productos-table', productos);
+        }
+
+        function deleteProduct(id) {
+            const index = productos.findIndex(p => p.id === id);
+            if (index !== -1) {
+                productos.splice(index, 1);
+                fillTable('productos-table', productos);
+            }
+        }
+
+        function addOrder() {
+            const newOrder = {
+                id: pedidos.length + 1,
+                userId: parseInt(prompt('ID del Usuario:')),
+                orderDate: new Date().toISOString().split('T')[0],
+                status: prompt('Estado del Pedido:'),
+                total: parseFloat(prompt('Total del Pedido:'))
+            };
+            pedidos.push(newOrder);
+            fillTable('pedidos-table', pedidos);
+        }
+
+        function editOrder(id) {
+            const order = pedidos.find(o => o.id === id);
+            order.userId = parseInt(prompt('Nuevo ID del Usuario:', order.userId));
+            order.orderDate = prompt('Nueva Fecha del Pedido:', order.orderDate);
+            order.status = prompt('Nuevo Estado del Pedido:', order.status);
+            order.total = parseFloat(prompt('Nuevo Total del Pedido:', order.total));
+            fillTable('pedidos-table', pedidos);
+        }
+
+        function deleteOrder(id) {
+            const index = pedidos.findIndex(o => o.id === id);
+            if (index !== -1) {
+                pedidos.splice(index, 1);
+                fillTable('pedidos-table', pedidos);
+            }
+        }
+
+        function addHistory() {
+            const newHistory = {
+                id: historial.length + 1,
+                userId: parseInt(prompt('ID del Usuario:')),
+                orderId: parseInt(prompt('ID del Pedido:')),
+                orderDate: prompt('Fecha del Pedido:', new Date().toISOString().split('T')[0]),
+                status: prompt('Estado del Pedido:'),
+                total: parseFloat(prompt('Total del Pedido:'))
+            };
+            historial.push(newHistory);
+            fillTable('historial-table', historial);
+        }
+
+        function editHistory(id) {
+            const history = historial.find(h => h.id === id);
+            history.userId = parseInt(prompt('Nuevo ID del Usuario:', history.userId));
+            history.orderId = parseInt(prompt('Nuevo ID del Pedido:', history.orderId));
+            history.orderDate = prompt('Nueva Fecha del Pedido:', history.orderDate);
+            history.status = prompt('Nuevo Estado del Pedido:', history.status);
+            history.total = parseFloat(prompt('Nuevo Total del Pedido:', history.total));
+            fillTable('historial-table', historial);
+        }
+
+        function deleteHistory(id) {
+            const index = historial.findIndex(h => h.id === id);
+            if (index !== -1) {
+                historial.splice(index, 1);
+                fillTable('historial-table', historial);
+            }
+        }
+
+        function addNotification() {
+            const newNotification = {
+                id: notificaciones.length + 1,
+                userId: parseInt(prompt('ID del Usuario:')),
+                message: prompt('Mensaje de la Notificación:'),
+                date: new Date().toISOString().split('T')[0],
+                read: confirm('¿Marcado como leído?')
+            };
+            notificaciones.push(newNotification);
+            fillTable('notificaciones-table', notificaciones);
+        }
+
+        function editNotification(id) {
+            const notification = notificaciones.find(n => n.id === id);
+            notification.userId = parseInt(prompt('Nuevo ID del Usuario:', notification.userId));
+            notification.message = prompt('Nuevo Mensaje de la Notificación:', notification.message);
+            notification.date = prompt('Nueva Fecha:', notification.date);
+            notification.read = confirm('¿Marcado como leído?');
+            fillTable('notificaciones-table', notificaciones);
+        }
+
+        function deleteNotification(id) {
+            const index = notificaciones.findIndex(n => n.id === id);
+            if (index !== -1) {
+                notificaciones.splice(index, 1);
+                fillTable('notificaciones-table', notificaciones);
+            }
+        }
+
+        function logout() {
+            alert('Has cerrado sesión.');
+        }
+
+        // Inicializar datos
+        loadTableData();
     </script>
 </body>
 </html>
